@@ -8,4 +8,10 @@ const uses = require("../data/uses-data");
   },
 */
 
-module.exports = controller;
+function list(req, res, next) {
+  return res.json(uses);
+}
+
+module.exports = {
+  list,
+};

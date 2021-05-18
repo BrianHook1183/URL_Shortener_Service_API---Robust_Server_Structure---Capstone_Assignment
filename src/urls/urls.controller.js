@@ -7,4 +7,10 @@ const urls = require("../data/urls-data");
   },
 */
 
-module.exports = controller;
+function list(req, res, next) {
+  return res.json(urls);
+}
+
+module.exports = {
+  list,
+};
