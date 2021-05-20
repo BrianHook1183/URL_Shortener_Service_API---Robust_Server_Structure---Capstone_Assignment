@@ -29,6 +29,7 @@ function read(req, res) {
 }
 
 function list(req, res) {
+  // need to check for urlId in case the nested route at /urls/:urlId/uses is accessed instead of /uses which doesn't need any filtering
   const { urlId } = req.params;
   const byResult = urlId ? (use) => use.urlId == urlId : () => true;
   res.json({ data: uses.filter(byResult) });
