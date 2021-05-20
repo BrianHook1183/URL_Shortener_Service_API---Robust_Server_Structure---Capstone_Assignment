@@ -35,7 +35,16 @@ function list(req, res) {
   res.json({ data: uses.filter(byResult) });
 }
 
+function destroy(req, res) {
+  // using the locals property attached to the response instead of grabbing the useId from req.params
+  const index = uses.findIndex((use) => use.id === res.locals.use.id);
+  const deletedUse = uses.splice(index, 1);
+  console.log("the following was deleted: ", deletedUse);
+  res.sendStatus(204);
+}
+
 module.exports = {
   list,
   read: [useExists, read],
+  delete: [useExists, destroy],
 };
