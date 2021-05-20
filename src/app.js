@@ -9,7 +9,7 @@ app.use(express.json());
 app.use("/urls", urlsRouter);
 app.use("/uses", usesRouter);
 
-// Not found handler
+// Route not found handler
 app.use((req, res, next) => {
   next({ status: 404, message: `Not found: ${req.originalUrl}` });
 });

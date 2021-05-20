@@ -7,10 +7,32 @@ const urls = require("../data/urls-data");
   },
 */
 
+function urlExists(req, res, next) {
+  const urlId = Number(req.params.urlId);
+  const foundUrl = urls.find((url) => url.id == urlId);
+
+  if (foundUrl === undefined) {
+    return next({
+      status: 404,
+      message: `Url id not found: ${urlId}`,
+    });
+  }
+  res.locals.url = foundUrl;
+  next();
+}
+
 function list(req, res, next) {
-  return res.json(urls);
+  res.json({ data: urls });
+}
+
+function read(req, res, next) {
+  res.json({
+    data: res.locals.url,
+  });
 }
 
 module.exports = {
   list,
+  read: [urlExists, read],
+  // urlExists,
 };
