@@ -22,14 +22,16 @@ function useExists(req, res, next) {
   next();
 }
 
-function list(req, res, next) {
-  res.json({ data: uses });
-}
-
-function read(req, res, next) {
+function read(req, res) {
   res.json({
     data: res.locals.use,
   });
+}
+
+function list(req, res) {
+  const { urlId } = req.params;
+  const byResult = urlId ? (use) => use.urlId == urlId : () => true;
+  res.json({ data: uses.filter(byResult) });
 }
 
 module.exports = {

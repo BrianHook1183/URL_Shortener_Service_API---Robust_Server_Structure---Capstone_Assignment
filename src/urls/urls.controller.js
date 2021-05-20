@@ -21,11 +21,11 @@ function urlExists(req, res, next) {
   next();
 }
 
-function list(req, res, next) {
+function list(req, res) {
   res.json({ data: urls });
 }
 
-function read(req, res, next) {
+function read(req, res) {
   res.json({
     data: res.locals.url,
   });
@@ -34,5 +34,5 @@ function read(req, res, next) {
 module.exports = {
   list,
   read: [urlExists, read],
-  // urlExists,
+  urlExists,
 };
