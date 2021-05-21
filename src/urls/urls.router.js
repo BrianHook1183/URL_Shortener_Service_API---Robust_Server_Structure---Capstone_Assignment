@@ -8,7 +8,7 @@ router.use("/:urlId/uses", controller.urlExists, usesRouter);
 router
   .route("/:urlId")
   .get(controller.read)
-  // .put(controller.update)
+  .put(controller.update)
   .all(methodNotAllowed);
 
 router

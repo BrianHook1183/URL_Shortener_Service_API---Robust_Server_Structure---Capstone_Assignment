@@ -28,8 +28,11 @@ function urlExists(req, res, next) {
 
 function bodyHasHref(req, res, next) {
   const bodyHref = req.body.data.href;
-  if (bodyHref === undefined) {
-    return next({ status: 400, message: "body is missing href property" });
+  if (!bodyHref) {
+    return next({
+      status: 400,
+      message: "href property in body is missing or invalid",
+    });
   }
   res.locals.newHref = bodyHref;
   next();
@@ -55,9 +58,19 @@ function create(req, res) {
   res.status(201).json({ data: newEntry });
 }
 
+function update(req, res) {
+  const existingEntry = res.locals.url;
+  const newUrl = res.locals.newHref;
+  const updatedEntry = { ...existingEntry, href: newUrl };
+
+  existingEntry.href = newUrl;
+  res.json({ data: updatedEntry });
+}
+
 module.exports = {
   list,
   create: [bodyHasHref, create],
   read: [urlExists, read],
+  update: [urlExists, bodyHasHref, update],
   urlExists,
 };
