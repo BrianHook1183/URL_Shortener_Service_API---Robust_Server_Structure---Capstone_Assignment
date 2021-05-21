@@ -1,4 +1,5 @@
 const urls = require("../data/urls-data");
+const uses = require("../data/uses-data");
 
 /*  urls-data looks like:
 [
@@ -43,6 +44,11 @@ function list(req, res) {
 }
 
 function read(req, res) {
+  const lastUseId = uses.reduce((maxId, use) => Math.max(maxId, use.id), 0);
+  const newUseId = lastUseId + 1;
+  const use = { id: newUseId, urlId: res.locals.url.id, time: Date.now() };
+  uses.push(use);
+
   res.json({
     data: res.locals.url,
   });
@@ -51,7 +57,7 @@ function read(req, res) {
 function create(req, res) {
   // curriculum suggested using  const { data: { href } = {} } = req.body;
   const newUrl = res.locals.newHref;
-  let lastUrlId = urls.reduce((maxId, url) => Math.max(maxId, url.id), 0);
+  const lastUrlId = urls.reduce((maxId, url) => Math.max(maxId, url.id), 0);
   const newEntry = { href: newUrl, id: lastUrlId + 1 };
 
   urls.push(newEntry);
